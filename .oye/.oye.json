@@ -1,0 +1,8 @@
+{
+  "merge_with_default": true,
+  "filename_map": {
+    "editorconfig": ".editorconfig",
+    "gitignore": ".gitignore",
+    "readme": "README.md"
+  }
+}

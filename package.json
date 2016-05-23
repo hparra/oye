@@ -1,0 +1,24 @@
+{
+  "name": "oye",
+  "version": "0.1.0",
+  "description": "Lightweight common file non-generator",
+  "private": false,
+  "bin": {
+    "oye": "oye.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "oye",
+    "yo",
+    "yeoman",
+    "generator",
+    "dotfiles"
+  ],
+  "author": "HGPA",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.9.0"
+  }
+}
