@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - "5"
+  - "4"
+  - "0.12"
+
+deploy:
+  - provider: npm
+    email: hector@hectorparra.com
+    api_key:
+      secure: mUmvm9l0cgMFDmtQLHg4traENviHWr4jYOL8kovOSnRdm5UYLR1WcV4PRHHqzddvtmJ2IFpFC5Tc2mc6yoA5gJpdqXoWb3l27SsMMxHoztLLZ1fxkji/BHd0fdrBtmZr5PwoK25tjewzti+tnwFbuZQEscgGrrSZPB+GuBvfFeab2pDryfVm+Vdtv/oenjg1hKOdCqTTbqx7+aB1hi1LpPmDDfVllGXiRVr/C9axUofr7MYRTnnEWXQ1N7a0+mdwMZE/5ijg6fRiYsnmF1DTdJJDjhAsG088spcU5S36AryiapvzFAvHhV7Rq8RTqHyqC57EyCfqcNnHLa/0NB91/VllOAe25umQGTUTMoz3lkpMuUgW8bRgau9XFDVVWXl51tYB3Qy4xg3FyY7ZZxC4IqcC2W4l8mM0dba2TuMvnDHW0qWCXb0d7MAgiCguY2aSoU2rFH72R6W7zqVFmZckJsKAFFRyvXhZRjrRaxEJUHN+WMebY46ftIN6iWVr17LyQ/MVPgq1X13cndWc53XUT27TomTG2yTxKacfrVj6Q5RV6no5iJf6Xaz51ET4aOpzLL+f9Li2QsZd3QDllj7up8FOm0glGPbTThNtjV/wLTWRqE4M3H6ZCpUbYr5EHek4DbgENR+nnIQ9qb2PEp+Kk3LF1R0rBwUmLdS7rRBRzA8=
+    on:
+      tags: true
+      repo: hparra/oye
+      node: "0.12"
