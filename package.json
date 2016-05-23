@@ -16,9 +16,11 @@
     "generator",
     "dotfiles"
   ],
-  "author": "HGPA",
-  "license": "ISC",
+  "author": "Hector Guillermo Parra Alvarez",
+  "license": "MIT",
   "dependencies": {
     "commander": "^2.9.0"
-  }
+  },
+  "repository": "hparra/oye",
+  "preferGlobal": true
 }
