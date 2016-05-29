@@ -10,57 +10,76 @@ const path = require('path');
 const program = require('commander');
 
 const pkg = require('./package.json');
-const oye = require(path.join(__dirname, OYE_DIR, OYE_JSON));
 
-const custom_map_path = path.join(os.homedir(), OYE_DIR, OYE_JSON);
+/** @type {String} - default oye path */
+const DEFAULT_OYE_PATH = path.join(__dirname, OYE_DIR);
 
-// custom .oye.json if it exists
-const custom_oye = (function () {
+/** @type {String} - $HOME oye path, if it exists */
+const HOME_OYE_PATH = (function(oyeDir) {
+  const p = path.join(os.homedir(), oyeDir);
   try {
-    const stats = fs.statSync(custom_map_path);
-    return (stats.isFile())
-      ? require(custom_map_path)
-      : undefined;
+    return fs.statSync(p).isDirectory() ? p : null
   }
   catch (err) {
-    if (err && err.name === 'SyntaxError') {
-      console.error(err.message)
+    return null;
+  }
+})(OYE_DIR);
+
+/** @type {String[]} - subdirectory paths within HOME_OYE_PATH */
+const HOME_OYE_SUBPATHS = (function (homeOyePath) {
+  if (!homeOyePath)
+    return [];
+  try {
+    return fs
+      .readdirSync(homeOyePath)
+      .filter(function (file) {
+        if (file[0] === '.') return false;
+        return fs.statSync(path.join(homeOyePath, file)).isDirectory();
+      })
+      .map(function (dir) {
+        return path.join(homeOyePath, dir);
+      })
+  }
+  catch (err) {
+    return [];
+  }
+})(HOME_OYE_PATH);
+
+/** @type {String[]} List to all candidate OYE paths */
+const OYE_PATHS = HOME_OYE_SUBPATHS
+  ? Array.prototype.concat.call([DEFAULT_OYE_PATH, HOME_OYE_PATH], HOME_OYE_SUBPATHS)
+  : DEFAULT_OYE_PATH;
+
+/**
+Merger of all OYE_JSON with computed absolute paths
+$HOME OYE_JSON entries are merged with defaults in root namespace (*)
+Duplicated entries in $HOME OYE_JSON overwrite defaults
+OYE_JSON from subdirectories are namspaced with directory name
+(*) only if it comes first in list!
+@type {Oye} Merger of all OYE_JSON
+*/
+const oye = (function (oyePaths) {
+  return oyePaths.reduce(function (oyeMap, oyePath) {
+    try {
+      const oyePojo = require(path.join(oyePath, OYE_JSON));
+      const namespace = [DEFAULT_OYE_PATH, HOME_OYE_PATH].some(p => p === oyePath)
+        ? '' : path.basename(oyePath, HOME_OYE_PATH)
+      return Object
+        .keys(oyePojo.filename_map)
+        .reduce(function (map, key) {
+          map.filename_map[path.join(namespace, key)] = path.join(oyePath, oyePojo.filename_map[key]);
+          return map;
+        }, oyeMap)
     }
-    return undefined;
-  }
-})();
-
-// computed map of filepaths from optional merged custom oye.json
-const filepath_map = (function () {
-
-  // FIXME: we're calculating this before we're sure it needs to be used
-  const oye_filepath_map =
-    Object.keys(oye.filename_map).reduce(function (obj, key) {
-      obj[key] = path.join(__dirname, OYE_DIR, oye.filename_map[key]);
-      return obj;
-    }, {});
-
-  if (!custom_oye) {
-    return oye_filepath_map;
-  }
-  else {
-    const custom_oye_filepath_map =
-      Object.keys(custom_oye.filename_map).reduce(function (obj, key) {
-        obj[key] = path.join(os.homedir(), OYE_DIR, custom_oye.filename_map[key]);
-        return obj;
-      }, {});
-
-    // NOTE: mutation merge only if key/value does not already exist
-    if (custom_oye.merge_with_default) {
-      for (var key in oye_filepath_map) {
-        if (typeof custom_oye_filepath_map[key] === 'undefined')
-          custom_oye_filepath_map[key] = oye_filepath_map[key];
-      }
+    catch (err) {
+      return oyeMap;
     }
+  }, {
+    filename_map: {}
+  })
+})(OYE_PATHS)
 
-    return custom_oye_filepath_map;
-  }
-})();
+console.log(oye);
 
 program
   .version(pkg.version)
@@ -72,7 +91,7 @@ program
 program.on('--help', function () {
   console.log('  Available Examples:');
   console.log('');
-  Object.keys(filepath_map).forEach(function (example) {
+  Object.keys(oye.filename_map).forEach(function (example) {
     console.log('    ' + example);
   })
   console.log('');
@@ -87,7 +106,7 @@ if (program.args.length !== 1) {
 }
 
 const example = program.args.pop();
-const filepath = filepath_map[example];
+const filepath = oye.filename_map[example];
 
 if (typeof filepath === 'undefined') {
   console.error('Example was not found. For available examples run `oye -h`.');
@@ -106,6 +125,7 @@ const file_already_exists = (function () {
   }
 })();
 
+// copy example file
 try {
   var file = fs.readFileSync(filepath, 'utf8');
   if (program.stdout)

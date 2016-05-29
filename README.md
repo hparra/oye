@@ -24,7 +24,6 @@ Example _.oye.json_ file:
 
 ```json
 {
-  "merge_with_default": true,
   "filename_map": {
     "editorconfig": ".editorconfig",
     "gitignore": ".gitignore",
@@ -32,3 +31,5 @@ Example _.oye.json_ file:
   }
 }
 ```
+
+You may also have a single-level of subdirectories of _~/.oye_ with their own _.oye.json_. These entries are namespaced with the directory name to avoid conflicts.
