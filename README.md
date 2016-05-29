@@ -24,10 +24,13 @@ Example _.oye.json_ file:
 
 ```json
 {
-  "filename_map": {
-    "editorconfig": ".editorconfig",
-    "gitignore": ".gitignore",
-    "readme": "README.md"
+  "examples": {
+    "example": "example.md",
+    "another-example": {
+      "description": "optional description of example",
+      "source": "sourceExampleFile.md",
+      "target": "exampleFile.md"
+    }
   }
 }
 ```

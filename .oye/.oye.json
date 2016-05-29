@@ -1,7 +1,17 @@
 {
-  "filename_map": {
-    "editorconfig": ".editorconfig",
-    "gitignore": ".gitignore",
-    "readme": "README.md"
+  "examples": {
+    "editorconfig": {
+      "source": "editorconfig",
+      "target": ".editorconfig"
+    },
+    "gitignore": {
+      "source": "gitignore",
+      "target": ".gitignore"
+    },
+    "readme": {
+      "description": "ronn-style README.md",
+      "source": "readme.md",
+      "target": "README.md"
+    }
   }
 }
