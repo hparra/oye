@@ -1,1 +1,15 @@
-node_modules
+# -*- mode: gitignore; -*-
+#
+# .gitignore - specifies intentionally untracked files to ignore
+#
+# See https://git-scm.com/docs/gitignore for documentation
+# See https://github.com/github/gitignore for various examples
+#
+
+# emacs
+*~
+\#*\#
+
+# mac os x
+*.DS_Store
+._*

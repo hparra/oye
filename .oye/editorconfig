@@ -1,3 +1,10 @@
+#
+# .editorconfig - helps developers define and maintain consistent coding styles
+#
+# See http://EditorConfig.org
+#
+
+# top-most EditorConfig file?
 root = true
 
 [*]
@@ -6,6 +13,9 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+
+[{Makefile, *.tsv}]
+indent_style = tab
 
 [{package.json,*.yml}]
 indent_style = space

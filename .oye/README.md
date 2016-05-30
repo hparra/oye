@@ -1,6 +1,16 @@
-TODO: project name
-===
+PROJECT_NAME -- one-line project description
+============================================
 
-## Usage
+## SYNOPSIS
 
-TODO: Usage
+`name` [<optional>...] <flags>
+
+## DESCRIPTION
+
+TODO: description
+
+## AUTHOR
+
+## COPYRIGHT
+
+## SEE ALSO
