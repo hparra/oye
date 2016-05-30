@@ -47,9 +47,9 @@ const HOME_OYE_SUBPATHS = (function (homeOyePath) {
 })(HOME_OYE_PATH);
 
 /** @type {String[]} List to all candidate OYE paths */
-const OYE_PATHS = HOME_OYE_SUBPATHS
+const OYE_PATHS = HOME_OYE_PATH
   ? Array.prototype.concat.call([DEFAULT_OYE_PATH, HOME_OYE_PATH], HOME_OYE_SUBPATHS)
-  : DEFAULT_OYE_PATH;
+  : [DEFAULT_OYE_PATH];
 
 /**
 Merger of all OYE_JSON with absolute source paths
