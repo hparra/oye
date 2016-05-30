@@ -1,6 +1,6 @@
 {
   "name": "oye",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lightweight common file non-generator",
   "private": false,
   "bin": {
